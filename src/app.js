@@ -1,6 +1,8 @@
 import express from 'express';
 import winston from 'winston';
 
+import customersRouter from './routes/customer.route.js';
+
 // Server
 const app = express();
 const PORT = 3000;
@@ -13,7 +15,7 @@ const { combine, timestamp, label, printf } = winston.format;
 const logFormat = printf(({ level, message, label, timestamp }) => {
     return `${timestamp} [${label}] ${level}: ${message}`;
 });
-const logger = winston.createLogger({
+global.logger = winston.createLogger({
     level: 'silly',
     transports: [
         new winston.transports.Console(),
@@ -27,10 +29,16 @@ const logger = winston.createLogger({
 });
 
 // Router
-const router = express.Router();
+app.use('/customer', customersRouter);
 
-router.get('/', (req, res) => {
-    res.status(200).send(okMessage);
+app.use((err, req, res, next) => {
+    if (err.message) {
+        logger.error(`${req.method} ${req.baseUrl} - ${err.message}`);
+        res.status(400).send({ error: err.message });
+    } else {
+        logger.error(`${req.method} ${req.baseUrl} - ${err}`);
+        res.status(400).send({ error: err });
+    }
 });
 
 app.listen(PORT, () => {
