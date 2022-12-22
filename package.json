@@ -3,10 +3,12 @@
     "version": "0.1.0",
     "main": "app.js",
     "license": "MIT",
+    "type": "module",
     "dependencies": {
         "express": "^4.18.2"
     },
     "scripts": {
-        "start": "node src/app.js"
+        "start": "node src/app.js",
+        "dev": "nodemon src/app.js"
     }
 }
