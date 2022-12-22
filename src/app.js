@@ -6,7 +6,9 @@ const okMessage = `Server OK. Listening on port ${PORT}.`;
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
+const router = express.Router();
+
+router.get('/', (req, res) => {
     res.status(200).send(okMessage);
 });
 
