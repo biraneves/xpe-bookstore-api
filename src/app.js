@@ -2,6 +2,7 @@ import express from 'express';
 import winston from 'winston';
 
 import customersRouter from './routes/customer.route.js';
+import authorsRouter from './routes/author.route.js';
 
 // Server
 const app = express();
@@ -30,6 +31,7 @@ global.logger = winston.createLogger({
 
 // Router
 app.use('/customer', customersRouter);
+app.use('/author', authorsRouter);
 
 app.use((err, req, res, next) => {
     if (err.message) {
